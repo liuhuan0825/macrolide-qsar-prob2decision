@@ -91,7 +91,7 @@ def main():
         class_weight=None, random_state=args.seed, n_jobs=-1
     )
     # Platt calibration via 5-fold CV on the training set
-    clf = CalibratedClassifierCV(base_estimator=rf, method="sigmoid", cv=5)
+    clf = CalibratedClassifierCV(estimator=rf, method="sigmoid", cv=5)
     clf.fit(Xtr, ytr)
 
     # Predict calibrated probabilities
