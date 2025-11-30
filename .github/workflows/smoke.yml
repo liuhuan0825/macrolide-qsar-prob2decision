@@ -1,0 +1,19 @@
+name: smoke
+on: [push, pull_request]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: gbsdl
+          environment-file: env/environment.yml
+          auto-activate-base: false
+      - name: Run minimal training
+        shell: bash -l {0}
+        run: |
+          # Use a 100-row head for smoke test if dataset is large
+          mkdir -p data && head -n 101 data/dataset.csv > data/dataset.head100.csv || true
+          cp data/dataset.csv data/dataset.head100.csv || true
+          python scripts/train_rf.py --data data/dataset.head100.csv

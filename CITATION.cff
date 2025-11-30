@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "Prob2Decision for Veterinary Macrolides: Hybrid QSAR (RF + D-MPNN)"
+authors:
+  - family-names: Liu
+    given-names: Min
+version: 1.0.0
+date-released: 2025-11-30
+doi: 10.5281/zenodo.TBD
+message: "If you use this repository, please cite it."

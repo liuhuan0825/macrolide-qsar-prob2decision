@@ -1,0 +1,14 @@
+name: gbsdl
+channels: [conda-forge, pytorch]
+dependencies:
+  - python=3.11
+  - rdkit=2024.03
+  - scikit-learn=1.4
+  - pandas=2.2
+  - numpy=1.26
+  - matplotlib=3.8
+  - pip
+  - pip:
+      - joblib==1.4.2
+      - tqdm==4.66.5
+      - lightning==2.4.0
