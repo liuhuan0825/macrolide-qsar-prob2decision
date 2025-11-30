@@ -2,32 +2,19 @@ name: smoke
 on:
   push:
   pull_request:
-
 jobs:
   smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-
-     
-      - name: Setup micromamba
-        uses: mamba-org/setup-micromamba@v1
+      - uses: mamba-org/setup-micromamba@v1
         with:
-          micromamba-version: "1.5.7"
           environment-file: env/environment.yml
+          init-shell: bash
           cache-environment: true
           cache-downloads: true
-          init-shell: bash
-
-      - name: Show env
-        shell: bash -l {0}
-        run: |
-          micromamba activate gbsdl
-          python -V
-          python -c "import rdkit; import sklearn; import pandas; import numpy; print('rdkit', rdkit.__version__)"
-
-      - name: Run smoke check (RF only)
+      - name: Run RF smoke check
         shell: bash -l {0}
         run: |
           micromamba activate gbsdl
