@@ -1,19 +1,34 @@
 name: smoke
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
+
+     
+      - name: Setup micromamba
+        uses: mamba-org/setup-micromamba@v1
         with:
-          activate-environment: gbsdl
+          micromamba-version: "1.5.7"
           environment-file: env/environment.yml
-          auto-activate-base: false
-      - name: Run minimal training
+          cache-environment: true
+          cache-downloads: true
+          init-shell: bash
+
+      - name: Show env
         shell: bash -l {0}
         run: |
-          # Use a 100-row head for smoke test if dataset is large
-          mkdir -p data && head -n 101 data/dataset.csv > data/dataset.head100.csv || true
-          cp data/dataset.csv data/dataset.head100.csv || true
-          python scripts/train_rf.py --data data/dataset.head100.csv
+          micromamba activate gbsdl
+          python -V
+          python -c "import rdkit; import sklearn; import pandas; import numpy; print('rdkit', rdkit.__version__)"
+
+      - name: Run smoke check (RF only)
+        shell: bash -l {0}
+        run: |
+          micromamba activate gbsdl
+          python scripts/smoke_check.py
